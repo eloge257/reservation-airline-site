@@ -1,0 +1,242 @@
+/* src/styles/LoginModal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: var(--surface-color);
+  color: var(--text-primary);
+}
+
+.modal-header {
+  padding: 40px 40px 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.modal-header p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.auth-form {
+  padding: 30px 40px 20px;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.checkbox-label input {
+  width: 16px;
+  height: 16px;
+}
+
+.forgot-password {
+  font-size: 0.875rem;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.auth-divider {
+  position: relative;
+  text-align: center;
+  margin: 0 40px 20px;
+}
+
+.auth-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border-color);
+}
+
+.auth-divider span {
+  background: white;
+  padding: 0 16px;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.btn-google {
+  width: calc(100% - 80px);
+  margin: 0 40px 20px;
+  background: white;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.2s;
+}
+
+.btn-google:hover {
+  border-color: var(--primary-color);
+  background: var(--surface-color);
+}
+
+.google-icon {
+  font-size: 1.125rem;
+}
+
+.auth-switch {
+  text-align: center;
+  padding: 20px 40px;
+  border-top: 1px solid var(--border-color);
+}
+
+.auth-switch p {
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.switch-link {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.switch-link:hover {
+  color: var(--primary-dark);
+}
+
+.auth-terms {
+  padding: 0 40px 30px;
+  text-align: center;
+}
+
+.auth-terms p {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.auth-terms a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.auth-terms a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    margin: 20px;
+    max-height: calc(100vh - 40px);
+  }
+
+  .modal-header {
+    padding: 30px 20px 15px;
+  }
+
+  .auth-form {
+    padding: 20px 20px 15px;
+  }
+
+  .btn-google {
+    width: calc(100% - 40px);
+    margin: 0 20px 15px;
+  }
+
+  .auth-switch {
+    padding: 15px 20px;
+  }
+
+  .auth-terms {
+    padding: 0 20px 20px;
+  }
+
+  .form-options {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+}

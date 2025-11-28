@@ -1,0 +1,18 @@
+
+const IDS_ROLES = {
+    ADMINISTRATION: 1,
+    CONFIGURATION: 2,
+    RAPORTS: 3,
+    GERER: 4,
+    CORPORATES: 5,
+    COURSES: 6,
+    PAIEMENT_ET_PORTEFEUILLES: 7,
+    SIG: 8,
+    RESERVATIONS: 9,
+    PLAINTES: 10,
+    SkyTravelS : 11,
+    PROMOTION : 12
+
+}
+
+export default IDS_ROLES

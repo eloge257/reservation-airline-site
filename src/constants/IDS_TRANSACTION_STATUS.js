@@ -1,0 +1,8 @@
+const IDS_TRANSACTION_STATUS = {
+    EN_ETTENTE: 1,
+    APPROUVEE: 2,
+    REJECTEE: 3,
+
+}
+
+export default IDS_TRANSACTION_STATUS

@@ -1,0 +1,7 @@
+const IDS_PERMANENCE_STATUT  = {
+    EN_ATTENTE: 1,
+    ACCEPTEE: 2,
+    REFUSEE:3
+}
+
+export default IDS_PERMANENCE_STATUT

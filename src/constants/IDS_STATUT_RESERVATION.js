@@ -1,0 +1,10 @@
+const IDS_STATUT_RESERVATION = {
+    EN_ETTENTE: 1,
+    ANNLER: 2,
+    TERMINE: 3,
+    ACCEPTEE :4
+
+
+}
+
+export default IDS_STATUT_RESERVATION

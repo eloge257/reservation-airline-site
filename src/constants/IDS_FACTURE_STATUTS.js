@@ -1,0 +1,6 @@
+const IDS_FACTURE_STATUTS = {
+    PAYE: 2,
+    EN_ATTENTE_PAIEMENT: 1
+}
+
+export default IDS_FACTURE_STATUTS

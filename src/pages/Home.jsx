@@ -1,10 +1,30 @@
 // src/pages/Home.jsx
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { popularDestinations, airlines, testimonials, services } from '../data/flights';
+import {popularDestinations, airlines, testimonials, services } from '../data/flights';
 import '../styles/Home.css';
+import fetchApi from '../helpers/fetchApi';
+import moment from "moment";
+import { Dialog } from 'primereact/dialog';
+import LoginModal from '../components/LoginModal';
 
 const Home = () => {
+  const [ popularDestinatons,setpopularDestinations] = useState([])
+  const [visible,setVisible] = useState(false)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const fetchVol = async() => {
+    try {
+      const data = await fetchApi("/settings/vol")
+      setpopularDestinations(data.result.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+     fetchVol()
+  },[])
   const [stats, setStats] = useState([
     { number: '50+', label: 'Destinations' },
     { number: '500K+', label: 'Clients satisfaits' },
@@ -20,8 +40,14 @@ const Home = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+    const handleLogin = (userData) => {
+    setIsLoggedIn(true);
+    setUser(userData);
+    setIsLoginModalOpen(false);
+  };
 
   return (
+    <>
     <div className="home">
       {/* Hero Section */}
       <section className="hero">
@@ -166,9 +192,10 @@ const Home = () => {
               <span>Départ</span>
               <span>Arrivée</span>
               <span>Prix</span>
-              <span>Action</span>
+              {/* <span>Action</span> */}
             </div>
-            {popularDestinations.slice(0, 4).map((flight, index) => (
+            {/* {JSON.stringify(popularDestinatons)} */}
+            {/* {popularDestinations.slice(0, 4).map((flight, index) => (
               <div key={index} className="schedule-row">
                 <span className="flight-info">
                   <span className="airline">AF{100 + index}</span>
@@ -189,6 +216,33 @@ const Home = () => {
                 <span className="price">{flight.price}€</span>
                 <span className="action">
                   <Link to="/search" className="btn btn-sm btn-primary">
+                    Réserver
+                  </Link>
+                </span>
+              </div>
+            ))} */}
+              {popularDestinatons.map((flight, index) => (
+              <div key={index} className="schedule-row">
+                <span className="flight-info">
+                  <span className="airline">{flight.numero_vol}</span>
+                  <span className="airline-name">{flight.compagnie}</span>
+                </span>
+                <span className="destination">
+                  <strong>{flight.airport_dp.nom}</strong>
+                  <span>{flight.airport_dp.ville}</span>
+                </span>
+                <span className="time">
+                  <strong>{moment(flight.date_depart).format("HH:mm")}</strong>
+                  <span>CDG</span>
+                </span>
+                <span className="time">
+                   <strong>{moment(flight.date_arrive).format("HH:mm")}</strong> 
+                  <span>{flight.airport_dp.ville.slice(0, 3).toUpperCase()}</span>
+                </span>
+                <span className="price">{flight.prix}</span>
+{/* to="/booking" */}
+                <span className="action">
+                  <Link   onClick={() => setIsLoginModalOpen(true)} className="btn btn-sm btn-primary">
                     Réserver
                   </Link>
                 </span>
@@ -230,7 +284,7 @@ const Home = () => {
             <div className="testimonial-card">
               <div className="testimonial-content">
                 <div className="testimonial-text">
-                  "{testimonials[currentTestimonial].text}"
+                  {testimonials[currentTestimonial].text}
                 </div>
                 <div className="testimonial-author">
                   <img 
@@ -322,7 +376,16 @@ const Home = () => {
           </div>
         </div>
       </section>
+      
     </div>
+      {/* Modal de connexion */}
+      {isLoginModalOpen && (
+        <LoginModal
+          onClose={() => setIsLoginModalOpen(false)}
+          onLogin={handleLogin}
+        />
+      )}
+      </>
   );
 };
 

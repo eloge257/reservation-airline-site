@@ -107,6 +107,8 @@ export const popularDestinations = [
   }
 ];
 
+
+
 export const airlines = [
   { id: 1, name: "Air France", logo: "✈️", rating: 5 },
   { id: 2, name: "Emirates", logo: "🛫", rating: 5 },

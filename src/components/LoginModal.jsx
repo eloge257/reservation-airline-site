@@ -1,6 +1,7 @@
 // src/components/LoginModal.jsx
 import { useState } from 'react';
 import '../styles/LoginModal.css';
+import { Link } from 'react-router-dom';
 
 const LoginModal = ({ onClose, onLogin }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -133,9 +134,9 @@ const LoginModal = ({ onClose, onLogin }) => {
             </div>
           )}
 
-          <button type="submit" className="btn btn-primary btn-full">
+          <Link type="submit" to="/booking" className="btn btn-primary btn-full">
             {isLogin ? 'Se connecter' : 'Créer un compte'}
-          </button>
+          </Link>
         </form>
 
         <div className="auth-divider">

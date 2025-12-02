@@ -9,7 +9,7 @@ import removeUserDataAndCaches from '../utils/removeUserDataAndCaches';
 
 export const API_URL = false
           ? ""
-          : "http://localhost:3333";
+          : "http://localhost:3000";
 const initialOptions = {
     method: 'GET',
     cacheData: false,

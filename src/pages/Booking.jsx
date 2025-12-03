@@ -3,12 +3,16 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { sampleFlights } from '../data/flights';
 import '../styles/Booking.css';
+import { useLocation } from "react-router-dom";
 
 const Booking = () => {
   const { flightId } = useParams();
   const navigate = useNavigate();
   const flight = sampleFlights.find(f => f.id == 1);
-
+  const location = useLocation();
+  const { flightt } = location.state.flight || {};
+  console.log(location.state.flight, "--------------------------------------");
+  
   const [passengerInfo, setPassengerInfo] = useState({
     firstName: '',
     lastName: '',
@@ -51,8 +55,8 @@ const Booking = () => {
               <div className="flight-summary">
                 <div className="route-summary">
                   <div className="city">
-                    <strong>{flight.departure.city}</strong>
-                    <span>{flight.departure.airport}</span>
+                    <strong>{flightt.departure.city}</strong>
+                    <span>{flightt.departure.airport}</span>
                   </div>
                   
                   <div className="flight-line">
@@ -62,8 +66,8 @@ const Booking = () => {
                   </div>
 
                   <div className="city">
-                    <strong>{flight.arrival.city}</strong>
-                    <span>{flight.arrival.airport}</span>
+                    <strong>{flightt.airport_arr.ville}</strong>
+                    <span>{flightt.airport_arr.nom}</span>
                   </div>
                 </div>
 

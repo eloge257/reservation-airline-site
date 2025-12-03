@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {popularDestinations, airlines, testimonials, services } from '../data/flights';
 import '../styles/Home.css';
 import fetchApi from '../helpers/fetchApi';
@@ -14,6 +14,8 @@ const Home = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [detail,setDetail] = useState(null)
+   const navigate = useNavigate()
   const fetchVol = async() => {
     try {
       const data = await fetchApi("/settings/vol")
@@ -45,6 +47,9 @@ const Home = () => {
     setUser(userData);
     setIsLoginModalOpen(false);
   };
+
+  const userFront = localStorage.getItem("userfront")
+
 
   return (
     <>
@@ -242,9 +247,22 @@ const Home = () => {
                 <span className="price">{flight.prix}</span>
 {/* to="/booking" */}
                 <span className="action">
-                  <Link   onClick={() => setIsLoginModalOpen(true)} className="btn btn-sm btn-primary">
+                  {/* {} */}
+                  
+                    {(userFront) ?
+                    <Link  to={"/booking"} 
+                    // onClick={() => {
+                    //   navigate('/booking', { state: { flight } })
+                    // }} 
+                     state={{ flight }}  className="btn btn-sm btn-primary">
                     Réserver
-                  </Link>
+                  </Link> :
+                  <Link   onClick={() => {
+                   setIsLoginModalOpen(true)
+                   setDetail(flight.id_vol)
+                   }} className="btn btn-sm btn-primary">
+                    Réserver
+                  </Link>}
                 </span>
               </div>
             ))}
@@ -383,6 +401,7 @@ const Home = () => {
         <LoginModal
           onClose={() => setIsLoginModalOpen(false)}
           onLogin={handleLogin}
+          detail={detail}
         />
       )}
       </>

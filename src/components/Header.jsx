@@ -22,6 +22,8 @@ const Header = () => {
     setUser(null);
   };
 
+  const userFront = localStorage.getItem("userfront")
+
   return (
     <>
       <header className="header">
@@ -52,9 +54,8 @@ const Header = () => {
                 Mes réservations
               </Link>
             </nav>
-
             <div className="header-actions">
-              {isLoggedIn ? (
+              {userFront ? (
                 <div className="user-menu">
                   <button className="user-btn">
                     <span className="user-avatar">👤</span>

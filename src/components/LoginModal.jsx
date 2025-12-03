@@ -1,10 +1,14 @@
 // src/components/LoginModal.jsx
 import { useState } from 'react';
 import '../styles/LoginModal.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import fetchApi from '../helpers/fetchApi';
+import { jwtDecode } from 'jwt-decode';
 
-const LoginModal = ({ onClose, onLogin }) => {
+const LoginModal = ({ onClose, onLogin,detail }) => {
   const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -20,16 +24,35 @@ const LoginModal = ({ onClose, onLogin }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    
     if (isLogin) {
+      const datal = {
+          username: formData.email,
+          password: formData.password
+        }
+       const data = await fetchApi("/settings/login",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(datal)
+      })
+
+      const currentData = data?.result;
+      const token = currentData.token;
+      const decoded = jwtDecode(token);
+      const { user } = decoded;
+      localStorage.setItem("userfront", JSON.stringify(user));
+    // /booking
+      console.log(decoded,"----------------");
+      navigate('/booking', { state: { detail } })
       // Simulation de connexion
       onLogin({
-        firstName: "Jean",
-        lastName: "Dupont",
         email: formData.email
       });
+      
+      
     } else {
       // Simulation d'inscription
       if (formData.password === formData.confirmPassword) {
@@ -90,7 +113,7 @@ const LoginModal = ({ onClose, onLogin }) => {
           <div className="form-group">
             <label className="form-label">Email *</label>
             <input
-              type="email"
+              type="text"
               className="form-input"
               required
               value={formData.email}
@@ -134,9 +157,9 @@ const LoginModal = ({ onClose, onLogin }) => {
             </div>
           )}
 
-          <Link type="submit" to="/booking" className="btn btn-primary btn-full">
+          <button type="submit" className="btn btn-primary btn-full">
             {isLogin ? 'Se connecter' : 'Créer un compte'}
-          </Link>
+          </button>
         </form>
 
         <div className="auth-divider">

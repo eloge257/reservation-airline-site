@@ -26,6 +26,8 @@ const LoginModal = ({ onClose, onLogin,detail }) => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
+    // return console.log(formData,"---------------------------");
+    
     if (isLogin) {
       const datal = {
           username: formData.email,
@@ -56,11 +58,29 @@ const LoginModal = ({ onClose, onLogin,detail }) => {
     } else {
       // Simulation d'inscription
       if (formData.password === formData.confirmPassword) {
-        onLogin({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email
-        });
+         const datal = {
+          nom: formData.firstName,
+          prenom: formData.lastName,
+          email: formData.email,
+          username:formData.email,
+          password:formData.password,
+          telephone:"76890098"
+        }
+ 
+       const data = await fetchApi("/settings/client",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(datal)
+      })
+
+    // /booking
+      navigate('/')
+       onLogin({
+        email: formData.email
+      });
+  
       } else {
         alert("Les mots de passe ne correspondent pas");
       }

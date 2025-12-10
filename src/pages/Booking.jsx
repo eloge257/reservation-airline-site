@@ -10,9 +10,11 @@ const Booking = () => {
   const navigate = useNavigate();
   const flight = sampleFlights.find(f => f.id == 1);
   const location = useLocation();
-  const { flightt } = location.state.flight || {};
-  console.log(location.state.flight, "--------------------------------------");
-  
+  const { flightt } = location?.state?.flight || {};
+  const user = JSON.parse(localStorage.getItem("userfront"))
+  const [type, setType] = useState(null)
+console.log(flightt,'===========================-========------------------');
+
   const [passengerInfo, setPassengerInfo] = useState({
     firstName: '',
     lastName: '',
@@ -31,7 +33,12 @@ const Booking = () => {
     navigate('/payment');
   };
 
+
   const handleInputChange = (field, value) => {
+    // return console.log(value,"------------------------",field);
+    if (field === "type") {
+      setType(value)
+    }
     setPassengerInfo(prev => ({
       ...prev,
       [field]: value
@@ -55,8 +62,8 @@ const Booking = () => {
               <div className="flight-summary">
                 <div className="route-summary">
                   <div className="city">
-                    <strong>{flightt.departure.city}</strong>
-                    <span>{flightt.departure.airport}</span>
+                    <strong>{flightt?.departure?.city}</strong>
+                    <span>{flightt?.departure?.airport}</span>
                   </div>
                   
                   <div className="flight-line">
@@ -66,8 +73,8 @@ const Booking = () => {
                   </div>
 
                   <div className="city">
-                    <strong>{flightt.airport_arr.ville}</strong>
-                    <span>{flightt.airport_arr.nom}</span>
+                    <strong>{flightt?.airport_arr.ville}</strong>
+                    <span>{flightt?.airport_arr.nom}</span>
                   </div>
                 </div>
 
@@ -117,15 +124,25 @@ const Booking = () => {
             <form onSubmit={handleSubmit} className="passenger-form">
               <div className="form-section">
                 <h3>Informations du passager</h3>
-                
+                <div className="form-grid-12">
+                    <div className="form-group">
+                    <label className="form-label">Payer pour qui ? *</label>
+                    <select name=""  onChange={(e) => handleInputChange('type', e.target.value)} id="" className="form-input">
+                      <option value="">---</option>
+                      <option value="1">Par Moi-meme</option>
+                      <option value="2">Par autres</option>
+                    </select>
+                  </div>
+                </div>
                 <div className="form-grid-2">
+                  
                   <div className="form-group">
                     <label className="form-label">Prénom *</label>
                     <input
                       type="text"
                       className="form-input"
                       required
-                      value={passengerInfo.firstName}
+                      value={type == 1 ? `${user.client.nom}` : passengerInfo.firstName} 
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
                     />
                   </div>
@@ -136,7 +153,7 @@ const Booking = () => {
                       type="text"
                       className="form-input"
                       required
-                      value={passengerInfo.lastName}
+                      value={type == 1 ? `${user.client.prenom}` : passengerInfo.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
                     />
                   </div>
@@ -149,7 +166,7 @@ const Booking = () => {
                       type="email"
                       className="form-input"
                       required
-                      value={passengerInfo.email}
+                      value={type == 1 ? `${user.client.email}` : passengerInfo.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                     />
                   </div>
@@ -160,7 +177,7 @@ const Booking = () => {
                       type="tel"
                       className="form-input"
                       required
-                      value={passengerInfo.phone}
+                      value={type == 1 ? `${user.client.telephone}` : passengerInfo.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
                     />
                   </div>

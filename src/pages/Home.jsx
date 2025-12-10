@@ -15,7 +15,7 @@ const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [detail,setDetail] = useState(null)
-   const navigate = useNavigate()
+  const navigate = useNavigate()
   const fetchVol = async() => {
     try {
       const data = await fetchApi("/settings/vol")
@@ -49,6 +49,13 @@ const Home = () => {
   };
 
   const userFront = localStorage.getItem("userfront")
+  const goToBooking = (flight) => {
+    try {
+       navigate('/booking', { state: { flight } })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   return (
@@ -250,13 +257,15 @@ const Home = () => {
                   {/* {} */}
                   
                     {(userFront) ?
-                    <Link  to={"/booking"} 
-                    // onClick={() => {
-                    //   navigate('/booking', { state: { flight } })
-                    // }} 
-                     state={{ flight }}  className="btn btn-sm btn-primary">
+                    <a
+                    onClick={() => {
+                     goToBooking(flight)
+                    }} 
+                    // navigate('/booking', { state: { detail } })
+                    //  state={{ flight }} 
+                      className="btn btn-sm btn-primary">
                     Réserver
-                  </Link> :
+                  </a> :
                   <Link   onClick={() => {
                    setIsLoginModalOpen(true)
                    setDetail(flight.id_vol)

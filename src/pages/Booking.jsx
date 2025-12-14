@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { sampleFlights } from '../data/flights';
 import '../styles/Booking.css';
 import { useLocation } from "react-router-dom";
+import moment from 'moment';
+import fetchApi from '../helpers/fetchApi';
 
 const Booking = () => {
   const { flightId } = useParams();
@@ -11,9 +13,10 @@ const Booking = () => {
   const flight = sampleFlights.find(f => f.id == 1);
   const location = useLocation();
   const { flightt } = location?.state?.flight || {};
+
   const user = JSON.parse(localStorage.getItem("userfront"))
   const [type, setType] = useState(null)
-console.log(flightt,'===========================-========------------------');
+//  return console.log(,'===========================-========------------------');
 
   const [passengerInfo, setPassengerInfo] = useState({
     firstName: '',
@@ -28,8 +31,23 @@ console.log(flightt,'===========================-========------------------');
     return <div>Vol non trouvé</div>;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    // const nom =  formData.email
+    // return console.log(passengerInfo,"-------------------------");
+    const datat= {
+      id_client	: user?.id_client,
+      id_vol:location?.state?.flight?.id_vol,
+    }
+    const data = await fetchApi("/settings/reservations",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(datat)
+    })
+     console.log('---------------------------');
+    
     navigate('/payment');
   };
 
@@ -62,8 +80,8 @@ console.log(flightt,'===========================-========------------------');
               <div className="flight-summary">
                 <div className="route-summary">
                   <div className="city">
-                    <strong>{flightt?.departure?.city}</strong>
-                    <span>{flightt?.departure?.airport}</span>
+                    <strong>{location?.state?.flight?.airport_dp?.ville}</strong>
+                    <span>{location?.state?.flight?.airport_dp?.nom}</span>
                   </div>
                   
                   <div className="flight-line">
@@ -73,23 +91,23 @@ console.log(flightt,'===========================-========------------------');
                   </div>
 
                   <div className="city">
-                    <strong>{flightt?.airport_arr.ville}</strong>
-                    <span>{flightt?.airport_arr.nom}</span>
+                    <strong>{location?.state?.flight?.airport_arr.ville}</strong>
+                    <span>{location?.state?.flight?.airport_arr.nom}</span>
                   </div>
                 </div>
 
                 <div className="flight-details">
                   <div className="detail-row">
                     <span>Date:</span>
-                    <span>{flight.departure.date}</span>
+                    <span>{moment(location?.state?.flight?.date_depart).format("YYYY-MM-DD")}</span>
                   </div>
                   <div className="detail-row">
                     <span>Heure de départ:</span>
-                    <span>{flight.departure.time}</span>
+                    <span>{moment(location?.state?.flight?.date_depart).format("HH:mm")}</span>
                   </div>
                   <div className="detail-row">
                     <span>Heure d'arrivée:</span>
-                    <span>{flight.arrival.time}</span>
+                    <span>{moment(location?.state?.flight?.date_arrive).format("HH:mm")}</span>
                   </div>
                   <div className="detail-row">
                     <span>Durée:</span>
@@ -97,22 +115,22 @@ console.log(flightt,'===========================-========------------------');
                   </div>
                   <div className="detail-row">
                     <span>Vol:</span>
-                    <span>{flight.flightNumber}</span>
+                    <span>{location?.state?.flight?.numero_vol}</span>
                   </div>
                 </div>
 
                 <div className="price-summary">
                   <div className="detail-row">
                     <span>Prix du vol:</span>
-                    <span>{flight.price}€</span>
+                    <span>{location?.state?.flight?.prix}</span>
                   </div>
                   <div className="detail-row">
                     <span>Frais de service:</span>
-                    <span>25€</span>
+                    <span>25</span>
                   </div>
                   <div className="detail-row total">
                     <span>Total:</span>
-                    <span>{flight.price + 25}€</span>
+                    <span>{location?.state?.flight?.prix + 2500}</span>
                   </div>
                 </div>
               </div>

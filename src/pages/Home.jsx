@@ -51,6 +51,7 @@ const Home = () => {
   const userFront = localStorage.getItem("userfront")
   const goToBooking = (flight) => {
     try {
+      // return console.log(flight,"------------------------------")
        navigate('/booking', { state: { flight } })
     } catch (error) {
       console.log(error)
